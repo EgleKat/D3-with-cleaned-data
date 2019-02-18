@@ -63,7 +63,7 @@
  		return coords[1];
  	})
  	.attr("fill", function(d) {
-			return retrieveFuelColor(d["fuel1"]);
+		return retrieveFuelColor(d["fuel1"]);
 	})
 		//tooltip
 	.on("mouseover", function(d) {	
@@ -98,6 +98,7 @@ function retrieveFuelColor(fuel) {
 	//neutral
 	else if (fuel === "Nuclear" || fuel === "Waste" || fuel === "Other" || fuel === "Biomass")
 		return "yellow";
+	else return "gray";
 }
 
 function getTooltipText(d) {
@@ -106,7 +107,13 @@ function getTooltipText(d) {
 	if(d["commissioning_year"] !==  "")
 		text+= " (" + d["commissioning_year"]+ ")";
 
-	text+= "<br>" + d["name"] + "<br>Main fuel type: " + d["fuel1"];
+	text+= "<br>" + d["name"]  + "<br>Main fuel type: ";
+
+	if(d["fuel1"] !== "")
+		text+= d["fuel1"];
+	else 
+		text+= "unknown";
+
 
 	return text;
 }
