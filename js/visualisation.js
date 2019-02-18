@@ -66,14 +66,14 @@
 			return retrieveFuelColor(d["fuel1"]);
 	})
 		//tooltip
-	.on("mouseover", function(d,e,f,g) {	
+	.on("mouseover", function(d) {	
 			//change size
             d3.select(this).attr("r",radius * 5);
 
 			div.transition()		
 			.duration(200)		
 			.style("opacity", .9);		
-			div	.html("Built in " + d["country_long"] + "<br>" + d["name"] + "<br>Main fuel type: " + d["fuel1"]);
+			div	.html(getTooltipText(d));
 	})					
 	.on("mouseout", function(d) {
 	//change size
@@ -98,4 +98,15 @@ function retrieveFuelColor(fuel) {
 	//neutral
 	else if (fuel === "Nuclear" || fuel === "Waste" || fuel === "Other" || fuel === "Biomass")
 		return "yellow";
+}
+
+function getTooltipText(d) {
+	var text = "Built in " + d["country_long"] 
+
+	if(d["commissioning_year"] !==  "")
+		text+= " (" + d["commissioning_year"]+ ")";
+
+	text+= "<br>" + d["name"] + "<br>Main fuel type: " + d["fuel1"];
+
+	return text;
 }
