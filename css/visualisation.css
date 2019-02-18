@@ -14,9 +14,12 @@ div.tooltip {
     padding: 2px;				
     font-family: 'Lora', serif;
     font-style: normal;
-    font-size: 20px;		
-    background: #fbbe5f;	
-    border: 0px;		
-    border-radius: 8px;			
-    pointer-events: none;			
+    font-size: 20px;			
+    pointer-events: none;	
+
+    background:rgba(0,0,0,0.9);
+	border:1px solid grey;
+	border-radius:5px;	
+	color:!important "white";	
+	text-decoration-color: "white";
 }

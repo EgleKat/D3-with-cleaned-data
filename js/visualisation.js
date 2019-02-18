@@ -77,7 +77,7 @@
 	})					
 	.on("mouseout", function(d) {
 	//change size
-             d3.select(this).attr("r",radius);
+            d3.select(this).attr("r",radius);
 	
 			div.transition()		
 			.duration(500)		
