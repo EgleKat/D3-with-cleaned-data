@@ -20,8 +20,7 @@ var radius = 3;
 var goodColor = "#4e9621";
 var badColor = "#96214e";
 var neutralColor = "black";
-var filterObj = {"Non-Renewable": true, 'Renewable' :true, 'Other' : true};
-var filter = new Set([]);
+var filter = new Set(["Non-Renewable", "Renewable", "Other"]);
 
 var map = d3.select("div#d3-visualisation").append("svg")
 .attr("width", width)
@@ -172,13 +171,13 @@ function retrieveFuelTypeAndColor(fuel) {
 			color: badColor};
 		}
 	//renewable
-	else if (fuel === "Geothermal" || fuel=== "Hydro" || fuel=== "Solar" || fuel === "Wave and Tidal" || fuel === "Wind" || fuel === "Biomass"){
+	else if (fuel === "Geothermal" || fuel=== "Hydro" || fuel=== "Solar" || fuel === "Wave and Tidal" || fuel === "Wind" || fuel === "Biomass" || fuel === "Waste"){
 		return {
 			type:"Renewable",
 			color: goodColor};
 		}
 	//neutral
-	else if ( fuel === "Waste" || fuel === "Other" ){
+	else if ( fuel === "Other" ){
 		return {
 			type:"Other",
 			color: neutralColor
