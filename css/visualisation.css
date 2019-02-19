@@ -20,6 +20,5 @@ div.tooltip {
     background:rgba(0,0,0,0.9);
 	border:1px solid grey;
 	border-radius:5px;	
-	color:!important "white";	
-	text-decoration-color: "white";
+	color: white !important;
 }
