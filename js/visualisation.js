@@ -89,15 +89,15 @@
 
 
 function retrieveFuelColor(fuel) {
-	//bad
-	if (fuel === "Coal" ||fuel === "Gas" || fuel === "Oil")
-		return "red";
-	//good
-	else if (fuel === "Geothermal" || fuel=== "Hydro" || fuel=== "Solar" || fuel === "Wave and Tidal" || fuel === "Wind")
-		return "green";
+	//non-renewable
+	if (fuel === "Coal" ||fuel === "Gas" || fuel === "Oil" ||fuel === "Nuclear")
+		return "#96214e";
+	//renewable
+	else if (fuel === "Geothermal" || fuel=== "Hydro" || fuel=== "Solar" || fuel === "Wave and Tidal" || fuel === "Wind" || fuel === "Biomass")
+		return "#4e9621";
 	//neutral
-	else if (fuel === "Nuclear" || fuel === "Waste" || fuel === "Other" || fuel === "Biomass")
-		return "yellow";
+	else if ( fuel === "Waste" || fuel === "Other" )
+		return "black";
 	else return "gray";
 }
 
