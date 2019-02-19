@@ -22,3 +22,9 @@ div.tooltip {
 	border-radius:5px;	
 	color: white !important;
 }
+
+.legendOrdinal {
+	font-family: 'Lora', serif;
+    font-style: normal;
+    font-size: 18px;
+}
