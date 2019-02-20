@@ -75,7 +75,7 @@ http://www.tooplate.com/view/2085-neuron
           <div class="row">
 
                <div class="col-md-12 col-sm-12">
-                    <h1>Single Post</h1>
+                    <h1>Data Visualisation</h1>
                </div>
 
           </div>
@@ -87,9 +87,71 @@ http://www.tooplate.com/view/2085-neuron
 <section id="blog-single-post">
      <div class="container">
         
+        <h3 style="text-align:center">A Map Identifying Renewable and Non-renewable Power Plants in The World</h2>
           <div id="d3-visualisation">
+          
+
           </div>
-                         
+          <h4>About the Visualisation</h4>
+          
+
+          This visualisation displays the world map and displays all power plants given by dataset (provided they have their latitude and longitude). The power plants are displayed in three different colours: renewable, non-renewable and other. These can be further broken down:
+          <ul>
+               <li>
+                    Renewable:
+                    <ul>
+                         <li>Geothermal</li>
+                         <li>Hydro</li>
+                         <li>Solar</li>
+                         <li>Wave and Tidal</li>
+                         <li>Wind</li>
+                         <li>Biomass</li>
+                    </ul>
+               </li>
+
+                <li>
+                    Non-renewable:
+                    <ul>
+                         <li>Coal</li>
+                         <li>Gas</li>
+                         <li>Oil</li>
+                         <li>Nuclear</li>
+                    </ul>
+               </li>
+
+               <li>
+                    Other:
+                    <ul>
+                         <li>Waste</li>
+                         <li>Other</li>
+                    </ul>
+               </li>
+
+          </ul>
+          I decided to classify waste as 'Other', because I found that even though the world is constantly producing waste - not all of it can be used for energy and that in most cases they only burn plastics, which are made of non-renewable materials. (<a href = "https://zerowasteeurope.eu/2015/08/is-waste-a-source-of-renewable-energy/">source</a>, <a href = "https://www.plasticsmakeitpossible.com/about-plastics/types-of-plastics/what-are-plastics/">source</a>, <a href = "https://www.renewableenergyworld.com/ugc/articles/2009/09/is-wastetoenergy-renewable.html">source</a>)
+
+          <h4>Interaction</h4>
+
+          The visualisation can be interacted with in a few ways.
+
+          <ul>
+               <li><h5>Tooltip</h5>
+                Hovering over any of the power plants will provide relevant information (if present): country and year it was built in, the name of the power plant and the main fuel type. I chose to only display one fuel type because that would be the most relevant thing to the audience and introducing more fuel types would make the graph confusing.</li>
+               <li><h5>Legend</h5>
+                The legend provides information about the colour representation on the map. By clicking on one of the legend items, relevant data points are made hidden. This functionality provides a better way of investigating the map further, as some of the data points can be clustered on top of each other.     
+                </li>
+               <li>Zoom and Drag</li>
+
+          </ul>
+
+          <h4>The Audience</h4>
+          The main audience for the visualisation is people who want to know which countries are leaving a stronger environmental impact with energy production. The map displays the overall distribution of renewable and non-renewable power sources as well as providing the ability to find out more information about a specific power plant. The visualisation utilises important points of the dataset but doesn't clutter the screen with unnecessary information. (<a href="https://www.semanticscholar.org/paper/A-Taxonomy-of-Clutter-Reduction-for-Information-Ellis-Dix/1901b3a9b66cbd2d3705175a37e17b49516c9647">source</a>,<a href="https://www.semanticscholar.org/paper/Clutter-Reduction-in-Multi-Dimensional-Data-Using-Peng-Ward/85bd1bb8727a64d5a32f5f258eb42aa6476e6980">source</a>)
+
+
+<br>
+              o    An  overview  of  the  audience  and  use  case  for  each  visualisation  and  why  your  visualisation is appropriate both to this audience and the data.
+              o    A  description  of  the  interaction  and functionality the  visualisation  provides  and  why this interaction is appropriate both to the audience and the data. For list what value, and/or benefits your visualisation offers to users
+              o    Any  details  about  your  visualisation  that  you’ve  included  to  enhance  it  for  your  target  audience,  this  may  include  how  you’ve  highlighted  interesting  trends  to  your identified audience or enriching the source data with another data set.           
 
      </div>
 </section>
@@ -98,14 +160,12 @@ http://www.tooplate.com/view/2085-neuron
 
 <footer>
      <div class="container">
-          <div class="row">
 
                <div class="col-md-5 col-md-offset-1 col-sm-6">
-                    <h3>Egle Katilauskaite</h3>
+                    <h3 >Egle Katilauskaite</h3>
                     <p>Template used: <a href="https://www.free-css.com/free-css-templates/page237/neuron">Neuron</a></p>
                </div>
-              
-          </div>
+                      
      </div>
 </footer>
 
