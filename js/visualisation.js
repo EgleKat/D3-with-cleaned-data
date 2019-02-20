@@ -17,14 +17,17 @@ var width = 1300;
 var height = 900;
 var scale = 200;
 var radius = 3;
+var scaleFactor = 1;
 var goodColor = "#4e9621";
 var badColor = "#96214e";
 var neutralColor = "black";
 var filter = new Set(["Non-Renewable", "Renewable", "Other"]);
 
-var map = d3.select("div#d3-visualisation").append("svg")
+var svg = d3.select("div#d3-visualisation").append("svg")
 .attr("width", width)
 .attr("height", height);
+var map = svg.append("g").attr("class", "map");
+var dataPoints = svg.append("g").attr("class", "data-points");
 
 var div = d3.select("#d3-visualisation").append("div")	
 .attr("class", "tooltip")				
@@ -42,6 +45,22 @@ var path = d3.geoPath().projection(projection);
 
 function ready(error,worldData,data){
 
+	svg
+	.call(d3.zoom()
+	.translateExtent([[0,0],[width+10,height+10]])
+	.scaleExtent([1,40])
+    .on("zoom", function () {
+		map.attr("transform", d3.event.transform);
+		// var dataPointTransform = d3.event.transform;
+		// dataPointTransform.k = 1;
+		dataPoints.attr("transform", d3.event.transform);
+		scaleFactor = d3.event.transform.k;
+
+		dataPoints.selectAll(".power-plant").attr("r", getNewCircleRadius(0.25,3));
+	})
+
+	);
+
 	var countries = topojson.feature(worldData, worldData.objects.countries1).features;
 
  	//paint map
@@ -53,18 +72,18 @@ function ready(error,worldData,data){
 
  	paintCircles(data, () => {return true;});
 
-//LEGEND 
-//https://d3-legend.susielu.com/
-var ordinal = d3.scaleOrdinal()
-.domain(["Renewable", "Non-Renewable", "Other"])
-.range([ goodColor, badColor, neutralColor]);
+	//LEGEND 
+	//https://d3-legend.susielu.com/
+	var ordinal = d3.scaleOrdinal()
+	.domain(["Renewable", "Non-Renewable", "Other"])
+	.range([ goodColor, badColor, neutralColor]);
 
 
-map.append("g")
-.attr("class", "legendOrdinal")
-.attr("transform", "translate(20,20)");
+	svg.append("g")
+	.attr("class", "legendOrdinal")
+	.attr("transform", "translate(20,20)");
 
-var legendOrdinal = d3.legendColor()
+	var legendOrdinal = d3.legendColor()
 	  //d3 symbol creates a path-string, for example
 	  //"M0,-8.059274488676564L9.306048591020996,
 	  //8.059274488676564 -9.306048591020996,8.059274488676564Z"
@@ -81,49 +100,18 @@ var legendOrdinal = d3.legendColor()
 	  	filterDataAndRepaint(data);
 	  });
 
-	  map.select(".legendOrdinal")
+	  svg.select(".legendOrdinal")
 	  .call(legendOrdinal);
 
 
+	}
 
-	//LEGEND 2
-
-	//Create the legend, and save it as a variable so we can access it in a moment
-	// var legend = map.append("g").attr('class','legend')
-	//   //We want to place our legend on the right hand side of the graph (at about (750,100))
-	//   .attr("transform", function(d,i){return "translate("+(width-50)+",100)"})
-
-	// //Draw a grey rectangle with a margin of 15 (attributes x and y) around the legend
-	// legend.append("rect")
-	//   .attr("x", -15)
-	//   .attr("y", -15)
-	//   .attr("width", 120)
-	//   .attr("height", 110)
-	//   .attr("fill", d3.rgb(220, 220, 220, 0.7));
-
-	//   //Specify the items placed in the legend and add them to the legend
-	// var items = legend.selectAll(".legendItem")
-	//   .data(data)
-	//   .enter().append("g")
-	//   .attr("class","legendItem")
-	//   //Move each item in the legend to the right so that we can display a line next to a label, where i is the number of the item in the list 
-	//   .attr("transform", function(d,i){return "translate(0,"+i*20+")"});
-
-	// //Add the name of each country and style the text             
-	// items.append("text")
-	//   .text(function(d) { return retrieveFuelTypeAndColor(d["fuel1"]).type; })
-	//   .style("font", "10px sans-serif")
-	//   .attr("text-anchor", "right")
-	//   .attr("alignment-baseline", "middle")
-	//   .attr("transform", function(d){return "translate(15,0)"});
-}
-
-function paintCircles(data) {
+	function paintCircles(data) {
 
 
-	var mapWithData = map.selectAll(".power-plant").data(data);
+		var mapWithData = dataPoints.selectAll(".power-plant").data(data);
 
-	mapWithData.exit().remove();
+		mapWithData.exit().remove();
 
  	//add data points
  	mapWithData
@@ -131,7 +119,7 @@ function paintCircles(data) {
  	.append("circle")
  	.merge(mapWithData)
  	.attr("class", "power-plant")
- 	.attr("r",radius)
+ 	.attr("r", getNewCircleRadius(0.25,3))
  	.attr("cx", function(d){
  		var coords = projection([d.longitude, d.latitude]);
  		return coords[0];
@@ -146,7 +134,12 @@ function paintCircles(data) {
 	//tooltip
 	.on("mouseover", function(d) {	
 		//change size
-		d3.select(this).attr("r",radius * 5);
+		d3.select(this).attr("r", ()=>{;
+		radius = radius*5;
+		var newRadius = getNewCircleRadius(0.7,10);
+		radius = radius/5;
+		return newRadius;
+		})
 
 		div.transition()
 		.duration(200)
@@ -155,12 +148,16 @@ function paintCircles(data) {
 	})					
 	.on("mouseout", function(d) {
 		//change size
-		d3.select(this).attr("r",radius);
+		d3.select(this).attr("r", getNewCircleRadius(0.25,3));
 
 		div.transition()		
 		.duration(500)		
 		.style("opacity", 0);
 	});
+
+
+
+
 } 
 
 function retrieveFuelTypeAndColor(fuel) {
@@ -171,19 +168,22 @@ function retrieveFuelTypeAndColor(fuel) {
 			color: badColor};
 		}
 	//renewable
-	else if (fuel === "Geothermal" || fuel=== "Hydro" || fuel=== "Solar" || fuel === "Wave and Tidal" || fuel === "Wind" || fuel === "Biomass" || fuel === "Waste"){
+	else if (fuel === "Geothermal" || fuel=== "Hydro" || fuel=== "Solar" || fuel === "Wave and Tidal" || fuel === "Wind" || fuel === "Biomass"){
 		return {
 			type:"Renewable",
 			color: goodColor};
 		}
 	//neutral
-	else if ( fuel === "Other" ){
+	else if ( fuel === "Other" || fuel === "Waste"){
 		return {
 			type:"Other",
 			color: neutralColor
 		};
 	}
-	else {return "gray"};
+	else {return {
+		type:"Other",
+		color: neutralColor
+	};};
 
 }
 
@@ -211,7 +211,16 @@ function filterDataAndRepaint (unfilteredData) {
 	filteredData = filteredData.filter((dataRow) => {
 		var fuel = dataRow["fuel1"];
 		var fuelType= retrieveFuelTypeAndColor(fuel).type;
-		return filter.has(fuelType)
+		return filter.has(fuelType);
 	});
 	paintCircles(filteredData);
+}
+
+function getNewCircleRadius(minRadius, maxRadius) {
+	var newRadius = radius/scaleFactor;
+ 		if(newRadius<minRadius)
+ 			{newRadius = minRadius;}
+ 		else if (newRadius>maxRadius)
+	 		{newRadius = maxRadius;}
+ 		return newRadius;
 }
