@@ -95,10 +95,10 @@ http://www.tooplate.com/view/2085-neuron
           <h4>About the Visualisation</h4>
           
 
-          This visualisation displays the world map and displays all power plants given by dataset (provided they have their latitude and longitude). The power plants are displayed in three different colours: renewable, non-renewable and other. These can be further broken down:
+          This visualisation displays the world map and displays all power plants given by dataset (provided they have a latitude and longitude). The power plants are displayed in three different colours: renewable, non-renewable and other. These can be further broken down:
           <ul>
                <li>
-                    Renewable:
+                    <h5>Renewable:</h5>
                     <ul>
                          <li>Geothermal</li>
                          <li>Hydro</li>
@@ -110,7 +110,7 @@ http://www.tooplate.com/view/2085-neuron
                </li>
 
                 <li>
-                    Non-renewable:
+                    <h5>Non-renewable:</h5>
                     <ul>
                          <li>Coal</li>
                          <li>Gas</li>
@@ -120,7 +120,7 @@ http://www.tooplate.com/view/2085-neuron
                </li>
 
                <li>
-                    Other:
+                    <h5>Other:</h5>
                     <ul>
                          <li>Waste</li>
                          <li>Other</li>
@@ -138,11 +138,12 @@ http://www.tooplate.com/view/2085-neuron
                <li><h5>Tooltip</h5>
                 Hovering over any of the power plants will provide relevant information (if present): country and year it was built in, the name of the power plant and the main fuel type. I chose to only display one fuel type because that would be the most relevant thing to the audience and introducing more fuel types would make the graph confusing.</li>
                <li><h5>Legend</h5>
-                The legend provides information about the colour representation on the map. By clicking on one of the legend items, relevant data points are made hidden. This functionality provides a better way of investigating the map further, as some of the data points can be clustered on top of each other.     
+                The legend provides information about the colour representation on the map. By clicking on one of the legend items, relevant data points are toggled to be hidden or to be shown on the map. This functionality provides a better way of investigating the map further, as some of the data points can be clustered on top of each other.     
                 </li>
-               <li>Zoom and Pan</li>
-               If the user wants to investigate a country or a region in more depth, they can use the zoom functionality. Using the scroll wheel or double clicking on the map will zoom the map in. It will repaint the power plant data points to fit the appropriate zoom level. Clicking and dragging can also be utilised to navigate around the map. This functionality is already very intuitive to a computer literate user, hence I wanted to implement it in this visualisation. 
+               <li><h5>Zoom and Pan</h5>
+               If the user wants to investigate a country or a region in more depth, they can use the zoom functionality. Using the scroll wheel or double clicking on the map will zoom the map in. It will repaint the power plant data points to fit the appropriate zoom level. Clicking and dragging can also be utilised to navigate around the map. This functionality is already very intuitive to a computer literate user, hence I decided not to provide UI elements that would act as instructions. 
                <br>There are limits on how much zooming and panning you can do. I picked the zoom boundary amounts appropriately so that at the highest zoom option the user can still see the data points clearly. The panning amount is limited by the size of the map. 
+               </li>
           </ul>
 
           <h4>The Audience</h4>
