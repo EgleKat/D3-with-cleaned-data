@@ -47,10 +47,10 @@ function ready(error,worldData,data){
 
 	svg
 	.call(d3.zoom()
-	.translateExtent([[0,0],[width+10,height+10]])
-	.scaleExtent([1,40])
-    .on("zoom", function () {
-		map.attr("transform", d3.event.transform);
+		.translateExtent([[0,0],[width+10,height+10]])
+		.scaleExtent([1,40])
+		.on("zoom", function () {
+			map.attr("transform", d3.event.transform);
 		// var dataPointTransform = d3.event.transform;
 		// dataPointTransform.k = 1;
 		dataPoints.attr("transform", d3.event.transform);
@@ -59,7 +59,7 @@ function ready(error,worldData,data){
 		dataPoints.selectAll(".power-plant").attr("r", getNewCircleRadius(0.25,3));
 	})
 
-	);
+		);
 
 	var countries = topojson.feature(worldData, worldData.objects.countries1).features;
 
@@ -87,18 +87,32 @@ function ready(error,worldData,data){
 	  //d3 symbol creates a path-string, for example
 	  //"M0,-8.059274488676564L9.306048591020996,
 	  //8.059274488676564 -9.306048591020996,8.059274488676564Z"
-	  .shape("path", d3.symbol().type(d3.symbolCircle).size(150)())
+	  .shape("circle")
+	  //.shape("path", d3.symbol().type(d3.symbolCircle).size(150)())
 	  .shapePadding(10)
 	  //use cellFilter to hide the "e" cell
 	  .cellFilter(function(d){ return d.label !== "e" })
-	  .scale(ordinal)
+	  .scale(ordinal, scaleFactor)
+	  .shapePadding(10)
 	  .on("cellclick", function(legendItem){
 	  	if(filter.has(legendItem))
 	  		filter.delete(legendItem);
 	  	else
 	  		filter.add(legendItem);
 	  	filterDataAndRepaint(data);
+	  })
+	  .on("cellover", function(legendItem){
+	  	var circle = d3.select(this)
+	  	.selectAll(".swatch");
+	  	circle.attr("r", circle.attr("r") *2);	
+	  })
+	  .on("cellout", function(legendItem){
+	  	var circle = d3.select(this)
+	  	.selectAll(".swatch");
+	  	circle.attr("r", circle.attr("r") /2);	
 	  });
+
+	  
 
 	  svg.select(".legendOrdinal")
 	  .call(legendOrdinal);
@@ -135,10 +149,10 @@ function ready(error,worldData,data){
 	.on("mouseover", function(d) {	
 		//change size
 		d3.select(this).attr("r", ()=>{;
-		radius = radius*5;
-		var newRadius = getNewCircleRadius(0.7,10);
-		radius = radius/5;
-		return newRadius;
+			radius = radius*5;
+			var newRadius = getNewCircleRadius(0.7,10);
+			radius = radius/5;
+			return newRadius;
 		})
 
 		div.transition()
@@ -218,9 +232,9 @@ function filterDataAndRepaint (unfilteredData) {
 
 function getNewCircleRadius(minRadius, maxRadius) {
 	var newRadius = radius/scaleFactor;
- 		if(newRadius<minRadius)
- 			{newRadius = minRadius;}
- 		else if (newRadius>maxRadius)
-	 		{newRadius = maxRadius;}
- 		return newRadius;
+	if(newRadius<minRadius)
+		{newRadius = minRadius;}
+	else if (newRadius>maxRadius)
+		{newRadius = maxRadius;}
+	return newRadius;
 }

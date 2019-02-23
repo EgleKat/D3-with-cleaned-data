@@ -27,4 +27,5 @@ div.tooltip {
 	font-family: 'Lora', serif;
     font-style: normal;
     font-size: 20px;
+    cursor: pointer;
 }
