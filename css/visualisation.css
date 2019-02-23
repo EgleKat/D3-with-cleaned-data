@@ -29,3 +29,9 @@ div.tooltip {
     font-size: 20px;
     cursor: pointer;
 }
+
+
+.colorSpan {
+	padding: 2px;
+	color: white;
+}
