@@ -92,9 +92,58 @@ A   description   of   your   cleaning and   manipulation   of   the   dataset  
                     <div class="clearfix"></div>
 
                    
-					
-                    <h3>One Column</h3>
-                    <p>Fusce finibus ac orci ut feugiat. Duis accumsan dui non augue ullamcorper, at porta elit lacinia. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Cras at est non quam mattis hendrerit. Fusce purus massa, pretium malesuada eros nec, feugiat iaculis sem.</p>
+				Before I could use the dataset to create a visualisation, I had to clean the data. I used multiple tools and identified multiple errors in the dataset.	
+                    <h3>CSV Lint</h3>
+                    Before I looked into the dataset more in-depth, I ran it through <a href="https://csvlint.io/">CSV Lint</a>, an online csv validation tool. The tool identified a lot of empty rows, which I removed using Open Refine.
+                    
+                    <h3>Microsoft Excel</h3>
+
+                    I used Microsoft Excel to quickly cycle through the data and identify any errors throughout the data cleaning process. 
+                    I noticed that there was an empty out-of-place column which, upon further investigation, was an indication that some of the data rows in the dataset were shifted to the right, resulting in the nameless column. I moved out-of-place columns to their respective positions, based on the cell data and the column names. The data that was shifted to the right had the country column duplicate, which also helped in identifying the shifted rows.
+                    I used the custom facet feature in Open Refine to check if country and name were the same and if geolocation_source had “http” in it: 
+                         toString(toString(value).startsWith("http"));
+
+                    <h3>Open Refine</h3>
+                    <a href="openrefine.org">Open Refine</a> helped me remove the empty rows identified by CSV Lint. 
+                    Using grouping functions and text facets, I could identify odd values in the dataset. I checked unique values for each column. 
+
+
+
+                    I removed duplicate rows from the dataset which I checked by comparing the unique power plant ID's and then comparing the rest of the row. 
+
+                    <style type="text/css">
+                    .tg  {border-collapse:collapse;border-spacing:0;}
+                    .tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:black;}
+                    .tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:black;}
+                    .tg .tg-0lax{text-align:left;vertical-align:top}
+                    </style>
+                    <table class="tg">
+                      <tr>
+                        <th class="tg-0lax">Error Type</th>
+                        <th class="tg-0lax">Solution</th>
+                        <th class="tg-0lax">Example</th>
+                      </tr>
+                      <tr>
+                        <td class="tg-0lax">Empty Row</td>
+                        <td class="tg-0lax">Remove row</td>
+                        <td class="tg-0lax">row 479,536,591,<br><br><span style="font-weight:normal">692,693,694,695,698,699,785,856,933,1012,1080,1126,1195,1201 etc.</span></td>
+                      </tr>
+                      <tr>
+                        <td class="tg-0lax">Out of place summations of data</td>
+                        <td class="tg-0lax">Remove row</td>
+                        <td class="tg-0lax">ALL IRAQ, ALL INDIA</td>
+                      </tr>
+                      <tr>
+                        <td class="tg-0lax">Duplicate rows</td>
+                        <td class="tg-0lax">Remove duplicate row</td>
+                        <td class="tg-0lax"><span style="font-weight:normal;font-style:normal">RWA WRI1023156</span><br><span style="font-weight:normal;font-style:normal">ZAF WRI1000118</span><br><span style="font-weight:normal;font-style:normal">etc.</span><br></td>
+                      </tr>
+                      <tr>
+                        <td class="tg-0lax">Shifted columns</td>
+                        <td class="tg-0lax">Shift the columns back</td>
+                        <td class="tg-0lax"><span style="font-weight:normal">some in Australia, India, Ecuador, United Kingdom, Italy</span><br></td>
+                      </tr>
+                    </table>
                </div>
 
           </div>
