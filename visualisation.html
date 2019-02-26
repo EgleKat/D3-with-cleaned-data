@@ -159,7 +159,7 @@ http://www.tooplate.com/view/2085-neuron
                <li><h5>Tooltip</h5>
                 Hovering over any of the power plants will provide relevant information (if present): country and year it was built in, the name of the power plant and the main fuel type. I chose to only display one fuel type because that would be the most relevant thing to the audience and introducing more fuel types would make the graph confusing.</li>
                <li><h5>Legend</h5>
-                The legend provides information about the colour representation on the map. By clicking on one of the legend items, relevant data points are toggled to be hidden or to be shown on the map. This functionality provides a better way of investigating the map further, as some of the data points can be clustered on top of each other. Refreshing the data with the legend was not an easy task, as d3 did not provide any way to connect a property of a datapoint to the legend in the map.
+                The legend provides information about the colour representation on the map. By clicking on one of the legend items, relevant data points are toggled to be hidden or to be shown on the map. This functionality provides a better way of investigating the map further, as some of the data points can be clustered on top of each other. Refreshing the data with the legend was not an easy task, as d3 did not provide any way to connect a property of a data point to the legend in the map.
                 </li>
                <li><h5>Zoom and Pan</h5>
                If the user wants to investigate a country or a region in more depth, they can use the zoom functionality. Using the scroll wheel or double clicking on the map will zoom the map in. It will repaint the power plant data points to fit the appropriate zoom level. Clicking and dragging can also be utilised to navigate around the map. This functionality is already very intuitive to a computer literate user, hence I decided not to provide UI elements that would act as instructions. 
@@ -167,22 +167,22 @@ http://www.tooplate.com/view/2085-neuron
                <br>It was a challenge rescaling the circles representing the power plants as by default it would zoom in everything, resulting in one circle appearing to be the size of the screen.
                </li>
           </ul>
-          There was a possibility to make the circles' sizes different dependant on the megawatt-hours produced by each power plant, however I specifically chose against it because:
+          There was a possibility to make the circles' sizes different dependent on the megawatt-hours produced by each power plant, however I specifically chose against it because:
           <ol>
            <li>The information would be irrelevant to the audience as the visualisation is about renewable and not-renewable power plants identifying areas that are more environmentally-friendly. </li>
-           <li>The map would get overcluttered and difficult to identify specific power plants painted on top of each other.</li>
+           <li>The map would get over cluttered and difficult to identify specific power plants painted on top of each other.</li>
           </ol>
           <h3>The Audience</h3>
           The main audience for the visualisation is people who want to know which countries are making a more severe environmental impact with energy production. The map displays the overall distribution of renewable and non-renewable power sources as well as providing the ability to find out more information about a specific power plant. The visualisation utilises important points of the dataset but doesn't clutter the screen with unnecessary information. (<a href="https://www.semanticscholar.org/paper/A-Taxonomy-of-Clutter-Reduction-for-Information-Ellis-Dix/1901b3a9b66cbd2d3705175a37e17b49516c9647">source</a>, <a href="https://www.semanticscholar.org/paper/Clutter-Reduction-in-Multi-Dimensional-Data-Using-Peng-Ward/85bd1bb8727a64d5a32f5f258eb42aa6476e6980">source</a>)
 
 
           <h3>Values and Drawbacks</h3>
-          The visualisation is quite good at conveying the overall trend of renewable power sources in continents and in countries. For example, the audience can instantly see that the Nordic coutries have much more renewable energy sources. It is possible to incorporate another dataset into the visualisation, such as comparing renewable power plants in developing and developed countries, however, the visualisation would then become too overcluttered for my audience. Also, the dataset is not a full representation of the world, as it does not include countries, like USA or Canada, and it would not be a fair representaton of the comparisons.
+          The visualisation is quite good at conveying the overall trend of renewable power sources in continents and in countries. For example, the audience can instantly see that the Nordic countries have much more renewable energy sources. It is possible to incorporate another dataset into the visualisation, such as comparing renewable power plants in developing and developed countries, however, the visualisation would then become too overcluttered for my audience. Also, the dataset is not a full representation of the world, as it does not include countries, like USA or Canada, and it would not be a fair representation of the comparisons.
           <br>
           The visualisation is limited by the incomplete dataset but also by the lack of coordinates in some of the power plants. Luckily, there is only around 1% of the coordinates missing, resulting in an informative map.
           One could argue that the map could include more information about the power plants, such as their energy production or owner, which would satisfy a keen viewer, but I think that the audience the visualisation is aimed for would not want to spend hours analysing the map and rather see the finished and clear product.
           <br>
-          Overall, this chart could be used for targeting the development for renewable power stations in countries that need it the most. For example, greenpeace could use it to aid their campaining efforts by targeting specific countries and comparing them to others.
+          Overall, this chart could be used for targeting the development for renewable power stations in countries that need it the most. For example, Greenpeace could use it to aid their campaigning efforts by targeting specific countries and comparing them to others.
 
 
 <br>
