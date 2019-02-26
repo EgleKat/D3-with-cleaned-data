@@ -9,7 +9,7 @@
 <meta name="author" content="">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-<title>Open Data Visualisation</title>
+<title>Data Cleaning</title>
 <!--
 
 Template 2085 Neuron
@@ -22,6 +22,7 @@ http://www.tooplate.com/view/2085-neuron
 
 <!-- Main css -->
 <link rel="stylesheet" href="css/style.css">
+
 <link href="https://fonts.googleapis.com/css?family=Lora|Merriweather:300,400" rel="stylesheet">
 
 </head>
@@ -85,28 +86,86 @@ A   description   of   your   cleaning and   manipulation   of   the   dataset  
                <div class="col-md-offset-1 col-md-10 col-sm-12">
                    
 
+                    <h2>Data Cleaning</h2>
 
                     <div class="clearfix"></div>
 
                    
 				Before I could use the dataset to create a visualisation, I had to clean the data. I used multiple tools and identified multiple errors in the dataset.	
+
+                    <h3>Broken Encoding</h3>
+
                     <h3>CSV Lint</h3>
-                    Before I looked into the dataset more in-depth, I ran it through <a href="https://csvlint.io/">CSV Lint</a>, an online csv validation tool. The tool identified a lot of empty rows, which I removed using Open Refine.
+                    Before I looked into the dataset in greater depth, I ran it through <a href="https://csvlint.io/">CSV Lint</a>, an online CSV validation tool. The tool identified a lot of empty rows, which I removed using Open Refine.
                     
                     <h3>Microsoft Excel</h3>
 
                     I used Microsoft Excel to quickly cycle through the data and identify any errors throughout the data cleaning process. 
-                    I noticed that there was an empty out-of-place column which, upon further investigation, was an indication that some of the data rows in the dataset were shifted to the right, resulting in the nameless column. I moved out-of-place columns to their respective positions, based on the cell data and the column names. The data that was shifted to the right had the country column duplicate, which also helped in identifying the shifted rows.
-                    I used the custom facet feature in Open Refine to check if country and name were the same and if geolocation_source had “http” in it: 
+                    I noticed that there was an empty out-of-place column which, upon further investigation, was an indication that some of the data rows in the dataset were shifted to the right, resulting in the nameless column. I moved out-of-place columns to their respective positions, based on the cell data and the column names. The data that was shifted to the right had the country column duplicated, which also helped in identifying the shifted rows.
+                    I used the custom facet feature in Open Refine for moving the out-of-place columns also, by checking for values in the country and name columns that were the same and if geolocation_source had “http” in it: 
                          toString(toString(value).startsWith("http"));
 
                     <h3>Open Refine</h3>
-                    <a href="openrefine.org">Open Refine</a> helped me remove the empty rows identified by CSV Lint. 
+                    <a href="http://openrefine.org">Open Refine</a> helped me remove the empty rows identified by CSV Lint. 
                     Using grouping functions and text facets, I could identify odd values in the dataset. I checked unique values for each column. 
 
-
+                    <br>
 
                     I removed duplicate rows from the dataset which I checked by comparing the unique power plant ID's and then comparing the rest of the row. 
+                    
+                    <h4>Column: country_long</h4>
+
+                    There were a number of grammar mistakes in the column, which were identified by the text facet and clustering. Some of the cells had the country code in them, which I changed to be the country name (e.g. YEM to Yemen). I also added the countries to the empty values based on their country code in the following column.
+                    <br>
+                    Further, I changed the country name 'Russia' to 'USSR' and vice versa, where the commissioning dates of the power plants were earlier than the collapse of the Soviet Union.
+                    I chose to not remove the countries that don't exist anymore, because I think that that is an important aspect of the data - which country commissioned the power plant and not which country maintains it now.
+
+                    <h4>Column: country</h4>
+
+                    First thing to fix the column, I fixed country codes that were in the wrong format. The majority of the country codes were in a three-letter format, which I tried to maintain as well (N-KOR to PRK). However, I left one code as it was - NVNM, because there was no code to represent North Vietnam. I changed SVNM (South Vietnam) to VNM because I checked when the power plant was commissioned and found out that all the rows under SVNM were commissioned after the unification to Vietnam. 
+                    <br>
+                    I added country codes to empty cells based on the country_long column and fixed any gramatical errors.
+                    <br>
+                    Further, I changed the country code of RUS to SOV and vice versa, where it was appropriate. 
+
+
+                    <h4>Columns: longitude and latitude</h4>
+                    
+                    I converted all numeric values into numeric cells. That way I could check if the value is actually numeric (if it showed any errors) and to see if the values of the longitude and latitude are within allowed numeric limits ( [-180;+180] and [-90;+90] respectively).
+                    I chose to not to fill in empty values for a power plant because it was quite difficult to find the coordinates of a specific power plant and that there were hundreds of rows that needed filling in and I decided to save one of the most important resource - time.
+
+                    <h4>Column: source</h4>
+
+                    Aside from gramatical errors, I merged some values together by using the clustering feature, which helped identify similar values. 
+                    <h4>Column: fuel</h4>
+                    I fixed some grammar errors and removed the column 'fuel4', because it didn't have any values.
+                    <h4>Column: commissioning_year</h4>
+
+                    After converting the column to a numeric value I found that some values didn't fit the format (e.g. 15123) or didn't make sense. 
+                    There were two dates (1477, 1774) that weren't realistic because there were no power plants in those centuries. I looked up the values online and found that the actual values of the commissioning year were 2015 and 2005 respectively.
+                    <br>
+                    There were some wrong format values as well, such as 1962.2, which were fixed by removing the decimal point, and 200, which were fixed by doing some fact checking and deleting the values.
+                    <h4>Column: owner</h4>
+
+                    Some owners were represented with percentages and in different formats. I decided to stick with the format: 'owner_name (percentage); owner_name (percentage)' or 'owner_name'.
+                    I also performed some clustering of the values and found some irrelevant information, e.g. email addresses or 100% ownership values.
+
+
+                    <h4>Column: year_of_capacity_data</h4>
+                    There was not much to be changed in this column but some cells with the values NaN, which were deleted.
+
+                    <h4>Columns: generation_gWh_yyyy and estimated_generations_gwh</h4>
+
+                    For these column, I deleted very small values which did not make sense, e.g. 0.0199. I also deleted values of 0, Nil, NaN to keep consistent with the rest of the dataset.
+               
+                    <br>
+                    <br>
+                    Here is a table of error types generated with a <a href="https://divtable.com/generator/">html table generator</a>.
+    
+
+
+
+
 
                     <style type="text/css">
                     .tg  {border-collapse:collapse;border-spacing:0;}
@@ -114,33 +173,101 @@ A   description   of   your   cleaning and   manipulation   of   the   dataset  
                     .tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:black;}
                     .tg .tg-0lax{text-align:left;vertical-align:top}
                     </style>
-                    <table class="tg">
-                      <tr>
-                        <th class="tg-0lax">Error Type</th>
-                        <th class="tg-0lax">Solution</th>
-                        <th class="tg-0lax">Example</th>
-                      </tr>
-                      <tr>
-                        <td class="tg-0lax">Empty Row</td>
-                        <td class="tg-0lax">Remove row</td>
-                        <td class="tg-0lax">row 479,536,591,<br><br><span style="font-weight:normal">692,693,694,695,698,699,785,856,933,1012,1080,1126,1195,1201 etc.</span></td>
-                      </tr>
-                      <tr>
-                        <td class="tg-0lax">Out of place summations of data</td>
-                        <td class="tg-0lax">Remove row</td>
-                        <td class="tg-0lax">ALL IRAQ, ALL INDIA</td>
-                      </tr>
-                      <tr>
-                        <td class="tg-0lax">Duplicate rows</td>
-                        <td class="tg-0lax">Remove duplicate row</td>
-                        <td class="tg-0lax"><span style="font-weight:normal;font-style:normal">RWA WRI1023156</span><br><span style="font-weight:normal;font-style:normal">ZAF WRI1000118</span><br><span style="font-weight:normal;font-style:normal">etc.</span><br></td>
-                      </tr>
-                      <tr>
-                        <td class="tg-0lax">Shifted columns</td>
-                        <td class="tg-0lax">Shift the columns back</td>
-                        <td class="tg-0lax"><span style="font-weight:normal">some in Australia, India, Ecuador, United Kingdom, Italy</span><br></td>
-                      </tr>
-                    </table>
+
+
+               <table class="greyGridTable" style="width: 945.117px;">
+               <tbody>
+               <tr>
+               <th class="tg-0lax" style="width: 217px;">Error Type</th>
+               <th class="tg-0lax" style="width: 216px;">Solution</th>
+               <th class="tg-0lax" style="width: 510.117px;">Example</th>
+               </tr>
+               <tr>
+               <td class="tg-0lax" style="width: 217px;">Empty Row</td>
+               <td class="tg-0lax" style="width: 216px;">Remove row</td>
+               <td class="tg-0lax" style="width: 510.117px;">row 479,536,591,<br /><br /><span style="font-weight: normal;">692,693,694,695,698,699,785,856,933,1012,1080,1126,1195,1201 etc.</span></td>
+               </tr>
+               <tr>
+               <td class="tg-0lax" style="width: 217px;">Out of place summations of data</td>
+               <td class="tg-0lax" style="width: 216px;">Remove row</td>
+               <td class="tg-0lax" style="width: 510.117px;">ALL IRAQ, ALL INDIA</td>
+               </tr>
+               <tr>
+               <td class="tg-0lax" style="width: 217px;">Duplicate rows</td>
+               <td class="tg-0lax" style="width: 216px;">Remove duplicate row</td>
+               <td class="tg-0lax" style="width: 510.117px;"><span style="font-weight: normal; font-style: normal;">RWA WRI1023156</span><br /><span style="font-weight: normal; font-style: normal;">ZAF WRI1000118</span><br /><span style="font-weight: normal; font-style: normal;">etc.</span></td>
+               </tr>
+               <tr>
+               <td class="tg-0lax" style="width: 217px;">Shifted columns</td>
+               <td class="tg-0lax" style="width: 216px;">Shift the columns back</td>
+               <td class="tg-0lax" style="width: 510.117px;"><span style="font-weight: normal;">some rows in Australia, India, Ecuador, United Kingdom, Italy</span></td>
+               </tr>
+               <tr>
+               <td class="tg-0lax" style="width: 217px;">Grammar errors</td>
+               <td class="tg-0lax" style="width: 216px;">Fix grammar errors</td>
+               <td class="tg-0lax" style="width: 510.117px;">
+               Chill to Chile<span data-ccp-props="{&quot;134233279&quot;:true,&quot;201341983&quot;:0,&quot;335559739&quot;:160,&quot;335559740&quot;:259}"> <br /></span>United Kindom to United Kingdom<br />United Kingdon to United Kingdom<span data-ccp-props="{&quot;134233279&quot;:true,&quot;201341983&quot;:0,&quot;335559739&quot;:160,&quot;335559740&quot;:259}"> <br /></span>Urguay to Uruguay<span data-ccp-props="{&quot;134233279&quot;:true,&quot;201341983&quot;:0,&quot;335559739&quot;:160,&quot;335559740&quot;:259}"> <br /></span>Uzbekistam to Uzbekistan<span data-ccp-props="{&quot;134233279&quot;:true,&quot;201341983&quot;:0,&quot;335559739&quot;:160,&quot;335559740&quot;:259}"> <br /></span>Vietnan to Vietnam<span data-ccp-props="{&quot;134233279&quot;:true,&quot;201341983&quot;:0,&quot;335559739&quot;:160,&quot;335559740&quot;:259}">&nbsp;</span>
+               </td>
+               </tr>
+               <tr>
+               <td class="tg-0lax" style="width: 217px;">Empty cells</td>
+               <td class="tg-0lax" style="width: 216px;">&nbsp;Fill in based on other cells or leave empty</td>
+               <td class="tg-0lax" style="width: 510.117px;">&nbsp;-empty- to Australia</td>
+               </tr>
+               <tr>
+               <td class="tg-0lax" style="width: 217px;">Multiple Representations</td>
+               <td class="tg-0lax" style="width: 216px;">Change the cell to represent one value</td>
+               <td class="tg-0lax" style="width: 510.117px;">SA and ZAF</td>
+               </tr>
+               <tr>
+               <td class="tg-0lax" style="width: 217px;">Wrong cell data format</td>
+               <td class="tg-0lax" style="width: 216px;">Fix the data format or delete</td>
+               <td class="tg-0lax" style="width: 510.117px;">15123 or 1962.2 in year column</td>
+               </tr>
+               <tr>
+               <td class="tg-0lax" style="width: 217px;">Factual errors</td>
+               <td class="tg-0lax" style="width: 216px;">Fix the data based on research</td>
+               <td class="tg-0lax" style="width: 510.117px;">
+               Russia to USSR<br />SVNM to VNM
+               </td>
+               </tr>
+               <tr>
+               <td class="tg-0lax" style="width: 217px;">Duplicate values (with grammar mistakes)</td>
+               <td class="tg-0lax" style="width: 216px;">Change to one value</td>
+               <td class="tg-0lax" style="width: 510.117px;">
+               Africa Hydropower Resources Database<span data-ccp-props="{&quot;134233279&quot;:true,&quot;201341983&quot;:0,&quot;335559739&quot;:160,&quot;335559740&quot;:259}"> and </span>Africa Hydropower Resources Database&nbsp;&nbsp; (extra space)<span data-ccp-props="{&quot;134233279&quot;:true,&quot;201341983&quot;:0,&quot;335559739&quot;:160,&quot;335559740&quot;:259}"><br /></span>
+               <span data-ccp-props="{&quot;134233279&quot;:true,&quot;201341983&quot;:0,&quot;335559739&quot;:160,&quot;335559740&quot;:259}">&nbsp;</span>
+               </td>
+               </tr>
+               <tr>
+               <td class="tg-0lax" style="width: 217px;">Irrelevant data</td>
+               <td class="tg-0lax" style="width: 216px;">Remove irrelevant data</td>
+               <td class="tg-0lax" style="width: 510.117px;">
+               100% Statkraft<br/>
+               Wai-Kit Cheung &lt;waikit.cheung@belectric.co.uk&gt;
+               </td>
+               </tr>
+               <tr>
+               <td class="tg-0lax" style="width: 217px;">Capitalisation errors</td>
+               <td class="tg-0lax" style="width: 216px;">Fix the capitalisation into one value</td>
+               <td class="tg-0lax" style="width: 510.117px;">
+               <span class="TextRun  BCX2 SCXW145143233" lang="EN-US" style="font-size: 11pt; font-family: Calibri, Calibri_MSFontService, sans-serif; line-height: 19.425px;" xml:lang="EN-US"><span class="NormalTextRun  BCX2 SCXW145143233" style="background-color: inherit;">sA to SA</span></span>
+               </td>
+               </tr>
+               <tr>
+               <td class="tg-0lax" style="width: 217px;">Mixed use of numeric scales</td>
+               <td class="tg-0lax" style="width: 216px;">Convert all values to one scale</td>
+               <td class="tg-0lax" style="width: 510.117px;">
+               <span class="TextRun  BCX2 SCXW145143233" lang="EN-US" style="font-size: 11pt; font-family: Calibri, Calibri_MSFontService, sans-serif; line-height: 19.425px;" xml:lang="EN-US"><span class="NormalTextRun  BCX2 SCXW145143233" style="background-color: inherit;">9.68E+12</span></span>
+               </td>
+               </tr>
+               </tbody>
+               </table>
+               <p>&nbsp;</p>
+
+
+
+
                </div>
 
           </div>
